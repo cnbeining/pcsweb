@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Bootstrap 3, from LayoutIt!</title>
+
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+
+</head>
+<body>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="access_token">
+							access_token
+						</label>
+						<input type="text" class="form-control" id="access_token" placeholder="23.c0e4582a971a6f76564dd9312165b...">
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+
+
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="base_url">
+							base_url
+						</label>
+						<input type="text" class="form-control" id="base_url" placeholder="/app/sss">
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="col-md-2"></div>
+			<form role="form">
+
+				<button type="submit" class="btn btn-default" id="btn_check_access">
+					Check/storage access info
+				</button>
+				<button type="submit" class="btn btn-default" id="btn_sync">
+					Sync file
+				</button>
+
+
+			</form>
+		</div>
+
+		<table class="table table-hover" id="link_table">
+			<thead>
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Download link
+				</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<script>
+    $('#btn_check_access').on('click', function(event) {
+        event.preventDefault();
+        check_token();
+    });
+    $('#btn_sync').on('click', function(event) {
+        event.preventDefault();
+        sync();
+    });
+</script>
+
+
+<script>onload_load_config();</script>
+</body>
+</html>
