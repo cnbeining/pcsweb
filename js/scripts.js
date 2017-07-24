@@ -61,7 +61,7 @@ function sync() {
 
 
             var aria2_button = "				<button type=\"submit\" class=\"btn btn-default\" id=\""+aria2_btn_id+"\" onclick='copyAria2Link(\""+postfix+"\")'>" +
-                "					Sync file" +
+                "					Copy Aria2" +
                 "				</button>";
 
 
