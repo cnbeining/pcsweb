@@ -88,7 +88,7 @@ function copyAria2Link(postfix) {
     var down_url_id = "down_url_" + postfix;
     var filename = htmlDecode(document.getElementById(filename_id).innerHTML);
     var down_url = htmlDecode(document.getElementById(down_url_id).innerHTML);
-    var aria2_cmd = "aria2c -s16 -x16 -k1M -o '" + filename + "' '" + down_url + "'";
+    var aria2_cmd = "aria2c -s64 -x64 -k1M -o '" + filename + "' '" + down_url + "'";
     copyText(aria2_cmd);
     document.getElementById(aria2_btn_id).className = "btn btn-success";
 }
