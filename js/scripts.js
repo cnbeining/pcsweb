@@ -52,11 +52,70 @@ function sync() {
     $.getJSON("https://pcs.baidu.com/rest/2.0/pcs/file?method=list&access_token="+access_token+"&path="+base_url+"&callback=?",function(data){
         for (var i=0, l=data['list'].length; i<l; i++) {
             var path = data['list'][i]['path'];
+            var postfix = Math.random().toString(36).substring(2, 15);
             var filename = path.replace(/^.*[\\\/]/, '');
             var down_url = "https://pcs.baidu.com/rest/2.0/pcs/file?method=download&access_token="+access_token+"&path="+path;
+            var aria2_btn_id = "btn_copy_" + postfix;
+            var filename_id = "filename_" + postfix;
+            var down_url_id = "down_url_" + postfix;
 
-            $('#link_table tr:first').before("<tr><td>"+filename+"</td><td>"+down_url+"</td></tr>");
+
+            var aria2_button = "				<button type=\"submit\" class=\"btn btn-default\" id=\""+aria2_btn_id+"\" onclick='copyAria2Link(\""+postfix+"\")'>" +
+                "					Sync file" +
+                "				</button>";
+
+
+            $('#link_table').innerHTML =   "				<th>" +
+                "					Name" +
+                "				</th>" +
+                "				<th>" +
+                "					Download link" +
+                "				</th>" +
+                "				<th>" +
+                "					Aria2" +
+                "				</th>" +
+                "			</tr>";
+
+            $('#link_table tr:first').after("<tr><td id='"+filename_id+"'>"+filename+"</td><td id='"+down_url_id+"'>"+down_url+"</td><td>"+aria2_button+"</td></tr>");
 
         }
     });
+}
+
+function copyAria2Link(postfix) {
+    var aria2_btn_id = "btn_copy_" + postfix;
+    var filename_id = "filename_" + postfix;
+    var down_url_id = "down_url_" + postfix;
+    var filename = htmlDecode(document.getElementById(filename_id).innerHTML);
+    var down_url = htmlDecode(document.getElementById(down_url_id).innerHTML);
+    var aria2_cmd = "aria2c -s16 -x16 -k1M -o '" + filename + "' '" + down_url + "'";
+    copyText(aria2_cmd);
+    document.getElementById(aria2_btn_id).className = "btn btn-success";
+}
+
+function copyText(text){
+    function selectElementText(element) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(element);
+            range.select();
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(element);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
+    }
+    var element = document.createElement('DIV');
+    element.textContent = text;
+    document.body.appendChild(element);
+    selectElementText(element);
+    document.execCommand('copy');
+    element.remove();
+}
+
+function htmlDecode(input)
+{
+    var doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
 }
