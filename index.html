@@ -70,6 +70,15 @@
 					</div>
 				</div>
 
+				<div class="col-md-1">
+					<div class="form-group">
+						<label for="authorization_code">
+							authorization_code
+						</label>
+						<input type="text" class="form-control" id="authorization_code" placeholder="dfc29d..">
+					</div>
+				</div>
+
 			</div>
 		</div>
 
@@ -83,7 +92,12 @@
 				<button type="submit" class="btn btn-default" id="btn_sync">
 					Sync file
 				</button>
-
+				<button type="submit" class="btn btn-default" id="btn_authorize">
+					Authorize
+				</button>
+				<button type="submit" class="btn btn-default" id="btn_token">
+					Get Token
+				</button>
 
 			</form>
 		</div>
@@ -117,6 +131,18 @@
     $('#btn_sync').on('click', function(event) {
         event.preventDefault();
         sync();
+    });
+        $('#btn_sync').on('click', function(event) {
+        event.preventDefault();
+        sync();
+    });
+    $('#btn_authorize').on('click', function(event) {
+        event.preventDefault();
+        getAuthorizeToken();
+    });
+    $('#btn_token').on('click', function(event) {
+        event.preventDefault();
+        grantPermission();
     });
 </script>
 

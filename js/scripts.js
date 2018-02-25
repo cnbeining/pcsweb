@@ -41,9 +41,10 @@ function check_token() {
             if (typeof(Storage) !== "undefined") {
                 // Store
                 localStorage.setItem("access_token", access_token);
+                localStorage.setItem("refresh_token", refresh_token);
                 localStorage.setItem("base_url", base_url);
-                document.getElementById("access_token").value = access_token;
-                document.getElementById("base_url").value = base_url;
+                localStorage.setItem("client_id", client_id);
+                localStorage.setItem("client_secret", client_secret);
 
                 // Retrieve
                 //document.getElementById("result").innerHTML = localStorage.getItem("lastname");
@@ -160,6 +161,49 @@ function copyText(text) {
     selectElementText(element);
     document.execCommand('copy');
     element.remove();
+}
+
+function getAuthorizeToken() {
+    var client_id = localStorage.getItem("client_id");
+    openInNewTab('https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=oob&display=popup&scope=netdisk');
+}
+
+function grantPermission() {
+    authorization_code = document.getElementById("authorization_code").value;
+    client_id = document.getElementById("client_id").value;
+    client_secret = document.getElementById("client_secret").value;
+    //openInNewTab('https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=oob&display=popup&scope=netdisk');
+    $.getJSON("https://query.yahooapis.com/v1/public/yql", {
+                q: "select * from json where url=\"https://openapi.baidu.com/oauth/2.0/token?grant_type=authorization_code&code=" + authorization_code + "&client_id=" + client_id + "&client_secret=" + client_secret + "&redirect_uri=oob&scope=netdisk\"",
+                //callback: getJSON, // you don't even need this line if your browser supports CORS
+                format: "json"
+            }, function(data) {
+                if (data.query.results) {
+                    if ("access_token" in data.query.results.json) {
+                        localStorage.setItem("access_token", data.query.results.json.access_token);
+                        localStorage.setItem("refresh_token", data.query.results.json.refresh_token);
+                        localStorage.setItem("client_id", client_id);
+                        localStorage.setItem("client_secret", client_secret);
+                        document.getElementById("access_token").value = data.query.results.json.access_token;
+                        document.getElementById("refresh_token").value = data.query.results.json.refresh_token;
+                        document.getElementById("client_id").value = client_id;
+                        document.getElementById("client_secret").value = client_secret;
+                        return true;
+                    } else {
+                        document.getElementById("btn_check_access").className = "btn btn-danger";
+                        console.log('Grant failed!')
+                    }
+
+                } else {
+                    document.getElementById("btn_check_access").className = "btn btn-danger";
+                    console.log('YQL failed!')
+                }
+            });
+}
+
+
+function openInNewTab(url) {
+    $("<a>").attr("href", url).attr("target", "_blank")[0].click();
 }
 
 function htmlDecode(input) {
