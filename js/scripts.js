@@ -164,7 +164,10 @@ function copyText(text) {
 }
 
 function getAuthorizeToken() {
-    var client_id = localStorage.getItem("client_id");
+    client_id = document.getElementById("client_id").value;
+    client_secret = document.getElementById("client_secret").value;
+    localStorage.setItem("client_id", client_id);
+    localStorage.setItem("client_secret", client_secret);
     openInNewTab('https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=oob&display=popup&scope=netdisk');
 }
 
