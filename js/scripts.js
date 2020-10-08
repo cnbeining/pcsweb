@@ -56,10 +56,10 @@ function check_token() {
             document.getElementById("btn_check_access").className = "btn btn-success";
             return true;
         } else { // cannot get quota, try refresh token
-            $.getJSON("https://query.yahooapis.com/v1/public/yql", {
-                q: "select * from json where url=\"https://openapi.baidu.com/oauth/2.0/token?grant_type=refresh_token&refresh_token=" + refresh_token + "&client_id=" + client_id + "&client_secret=" + client_secret + "&redirect_uri=oob&scope=netdisk\"",
-                //callback: getJSON, // you don't even need this line if your browser supports CORS
-                format: "json"
+            $.getJSON("https://shrill-grass-2700.cnbeining.workers.dev", {
+            refresh_token: refresh_token,
+            client_id: client_id,
+            client_secret: client_secret
             }, function(data) {
                 if (data.query.results) {
                     if ("access_token" in data.query.results.json) {
@@ -137,7 +137,7 @@ function copyAria2Link(postfix) {
     var down_url_id = "down_url_" + postfix;
     var filename = htmlDecode(document.getElementById(filename_id).innerHTML);
     var down_url = htmlDecode(document.getElementById(down_url_id).innerHTML);
-    var aria2_cmd = "aria2c -s64 -x64 -k1M -o '" + filename + "' '" + down_url + "'";
+    var aria2_cmd = "aria2c -s8 -x8 -k1M -o '" + filename + "' '" + down_url + "'";
     copyText(aria2_cmd);
     document.getElementById(aria2_btn_id).className = "btn btn-success";
 }
