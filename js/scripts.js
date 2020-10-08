@@ -176,10 +176,11 @@ function grantPermission() {
     client_id = document.getElementById("client_id").value;
     client_secret = document.getElementById("client_secret").value;
     //openInNewTab('https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=oob&display=popup&scope=netdisk');
-    $.getJSON("https://query.yahooapis.com/v1/public/yql", {
-                q: "select * from json where url=\"https://openapi.baidu.com/oauth/2.0/token?grant_type=authorization_code&code=" + authorization_code + "&client_id=" + client_id + "&client_secret=" + client_secret + "&redirect_uri=oob&scope=netdisk\"",
-                //callback: getJSON, // you don't even need this line if your browser supports CORS
-                format: "json"
+    ?code=&client_id=&client_secret=
+    $.getJSON("https://floral-term-04eb.cnbeining.workers.dev/", {
+                code: authorization_code,
+                client_id: client_id,
+                client_secret: client_secret
             }, function(data) {
                 if (data.query.results) {
                     if ("access_token" in data.query.results.json) {
